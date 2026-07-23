@@ -286,6 +286,14 @@ footer{background:#07080d;color:#aeb6c4;padding:60px 0 26px}
 .pagehero-video .ph-scrim{position:absolute;inset:0;background:linear-gradient(120deg,rgba(12,14,22,.92),rgba(12,14,22,.55) 58%,rgba(30,91,184,.35));z-index:1}
 .pagehero-video .wrap{position:relative;z-index:2;padding-top:120px;padding-bottom:96px}
 .pagehero-video::before,.pagehero-video::after{display:none}
+.form-done{text-align:center;padding:26px 10px}
+.form-done-tick{width:58px;height:58px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.form-done h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:24px;margin:0 0 10px;letter-spacing:-.01em}
+.form-done p{margin:0 auto 8px;max-width:44ch;line-height:1.5;opacity:.85}
+.form-done .form-done-alt{font-size:14px;opacity:.7}
+.form-done a{color:var(--red);font-weight:600}
+.form-err{margin-top:14px;color:var(--red);font-size:14px;line-height:1.5}
+.form-err a{color:var(--red);text-decoration:underline}
 </style></head><body>
 <div class="scrollbar"><i></i></div>
 <header><div class="wrap nav">
@@ -299,12 +307,12 @@ footer{background:#07080d;color:#aeb6c4;padding:60px 0 26px}
 <section class="section tight"><div class="wrap"><div class="section-head reveal"><div class="eyebrow">In action</div><h2>From the mats</h2></div><div class="galgrid reveal"><a class="gi" data-lb="assets/gallery/G860.jpg"><img src="assets/gallery/G860.jpg" alt="Kids Taekwondo" loading="lazy"></a><a class="gi" data-lb="assets/gallery/G962.jpg"><img src="assets/gallery/G962.jpg" alt="Kids Taekwondo" loading="lazy"></a><a class="gi" data-lb="assets/gallery/G864.jpg"><img src="assets/gallery/G864.jpg" alt="Kids Taekwondo" loading="lazy"></a><a class="gi" data-lb="assets/gallery/G778.jpg"><img src="assets/gallery/G778.jpg" alt="Kids Taekwondo" loading="lazy"></a><a class="gi" data-lb="assets/gallery/G904.jpg"><img src="assets/gallery/G904.jpg" alt="Kids Taekwondo" loading="lazy"></a><a class="gi" data-lb="assets/gallery/G779.jpg"><img src="assets/gallery/G779.jpg" alt="Kids Taekwondo" loading="lazy"></a></div></div></section><section class="section enquire" id="enquire"><div class="wrap enq-grid">
 <div class="reveal"><div class="eyebrow">Get started</div><h2>Make an enquiry</h2><p>Tell us what you're after and we'll be in touch. No commitment, just a conversation about the right place to begin.</p>
 <div class="enq-points"><div>School programs across NSW</div><div>Kids &amp; adults classes</div><div>Self-defence courses for groups</div><div>Private 1-on-1 coaching</div></div></div>
-<form onsubmit="return false" class="reveal">
-<div class="grid2"><div><label>First name</label><input placeholder="First name"></div><div><label>Last name</label><input placeholder="Last name"></div></div>
-<div class="grid2"><div><label>Email</label><input type="email" placeholder="you@email.com"></div><div><label>Phone</label><input type="tel" placeholder="0400 000 000"></div></div>
-<label>I'm interested in</label><select><option>After-school / schools program</option><option>Kids Taekwondo (10&ndash;17)</option><option>Adults Taekwondo (18+)</option><option>Self-defence course</option><option>Private 1-on-1 lessons</option><option>Competitions / squad</option><option>Coaching / instructor roles</option><option>Not sure yet</option></select>
-<label>Message</label><textarea rows="4" placeholder="Tell us a little about what you're looking for"></textarea>
-<button class="btn btn-red">Send enquiry</button></form>
+<form data-enquiry action="https://api.web3forms.com/submit" method="POST" class="reveal"><input type="hidden" name="access_key" value="18d33e37-5a00-4ba7-8f97-76c0a5d29812"><input type="hidden" name="subject" value="Website enquiry (Kids)"><input type="hidden" name="from_name" value="TDog Taekwondo website"><input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none !important" aria-hidden="true">
+<div class="grid2"><div><label>First name</label><input name="first_name" placeholder="First name" required></div><div><label>Last name</label><input name="last_name" placeholder="Last name"></div></div>
+<div class="grid2"><div><label>Email</label><input type="email" name="email" placeholder="you@email.com" required></div><div><label>Phone</label><input type="tel" name="phone" placeholder="0400 000 000"></div></div>
+<label>I'm interested in</label><select name="interest"><option>After-school / schools program</option><option>Kids Taekwondo (10&ndash;17)</option><option>Adults Taekwondo (18+)</option><option>Self-defence course</option><option>Private 1-on-1 lessons</option><option>Competitions / squad</option><option>Coaching / instructor roles</option><option>Not sure yet</option></select>
+<label>Message</label><textarea rows="4" name="message" placeholder="Tell us a little about what you're looking for"></textarea>
+<button type="submit" class="btn btn-red">Send enquiry</button></form>
 </div></section>
 <footer><div class="wrap">
 <div class="foot-grid">
@@ -352,5 +360,42 @@ ready(function(){
  var secs=[].slice.call(document.querySelectorAll('section[id]'));var links=[].slice.call(document.querySelectorAll('.menu a.nav-link'));
  if(IO&&secs.length){var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var id=e.target.id;links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+id);});}});},{rootMargin:'-40% 0px -55% 0px'});secs.forEach(function(s){so.observe(s);});}
 });})();
+</script>
+
+<script>
+(function(){
+  var API='https://api.web3forms.com/submit';
+  document.querySelectorAll('form[data-enquiry]').forEach(function(form){
+    form.addEventListener('submit',function(ev){
+      ev.preventDefault();
+      var btn=form.querySelector('button[type=submit]')||form.querySelector('button');
+      var label=btn?btn.textContent:'';
+      var old=form.querySelector('.form-err'); if(old){old.style.display='none';}
+      if(btn){btn.disabled=true;btn.textContent='Sending\u2026';}
+      function fail(){
+        if(btn){btn.disabled=false;btn.textContent=label;}
+        var e=form.querySelector('.form-err');
+        if(!e){e=document.createElement('p');e.className='form-err';
+          e.innerHTML='Sorry, that did not send. Please try again, or email <a href="mailto:tdogtaekwondo@gmail.com">tdogtaekwondo@gmail.com</a>.';
+          form.appendChild(e);}
+        e.style.display='block';
+      }
+      fetch(API,{method:'POST',body:new FormData(form)})
+        .then(function(r){return r.json();})
+        .then(function(res){
+          if(res&&res.success){
+            form.innerHTML='<div class="form-done" role="status">'
+              +'<div class="form-done-tick"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 6.5"/></svg></div>'
+              +'<h3>Thanks, we have got it</h3>'
+              +'<p>Your enquiry is on its way to Taj. We will be in touch shortly, usually within a day or two.</p>'
+              +'<p class="form-done-alt">In a hurry? Email <a href="mailto:tdogtaekwondo@gmail.com">tdogtaekwondo@gmail.com</a></p>'
+              +'</div>';
+            if(form.scrollIntoView){form.scrollIntoView({behavior:'smooth',block:'center'});}
+          } else { fail(); }
+        })
+        .catch(fail);
+    });
+  });
+})();
 </script>
 </body></html>
